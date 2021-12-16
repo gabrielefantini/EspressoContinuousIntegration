@@ -28,7 +28,8 @@ jobs:
         target: ${{ matrix.target }}
         arch: x86_64
         profile: Nexus 6
-        script: ./gradlew test --info # running our test with info to check the results
+        script: |
+          adb shell am start -n "it.feio.android.omninotes.alpha/it.feio.android.omninotes.MainActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER >> result.txt
 
     - name: Send mail
       uses: dawidd6/action-send-mail@v3
@@ -48,5 +49,5 @@ jobs:
         # Required sender full name (address can be skipped):
         from: Luke Skywalker # <user@example.com>
         # Optional HTML body read from file:
-        html_body: file:///Users/runner/work/AppiumContinuousIntegration/EspressoContinuousIntegration/build/reports/tests/test/index.html
+        html_body: file:///Users/runner/work/AppiumContinuousIntegration/EspressoContinuousIntegration/result.txt
 
