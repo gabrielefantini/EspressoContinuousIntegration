@@ -49,5 +49,5 @@ jobs:
         # Required sender full name (address can be skipped):
         from: Luke Skywalker # <user@example.com>
         # Optional HTML body read from file:
-        html_body: file:///Users/runner/work/AppiumContinuousIntegration/EspressoContinuousIntegration/
+        html_body: file:///Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/build/reports/tests/test/index.html
 
