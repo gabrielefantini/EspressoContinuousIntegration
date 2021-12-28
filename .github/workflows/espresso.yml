@@ -49,5 +49,9 @@ jobs:
         # Required sender full name (address can be skipped):
         from: Luke Skywalker # <user@example.com>
         # Optional HTML body read from file:
-        html_body: file:///Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/build/reports/tests/test/index.html
+        html_body: file:///Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/reports/tests/testPlayReleaseUnitTest/index.html
 
+    - uses: actions/upload-artifact@v2
+      with:
+        name: test-report
+        path: /Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/reports/tests/testPlayReleaseUnitTest
