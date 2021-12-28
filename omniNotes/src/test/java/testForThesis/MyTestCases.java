@@ -1,3 +1,6 @@
+package testForThesis;
+
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -11,7 +14,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.core.AllOf.allOf;
 
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -23,11 +26,10 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import org.hamcrest.Matcher;
 import org.junit.FixMethodOrder;
