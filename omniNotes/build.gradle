@@ -254,7 +254,7 @@ apply plugin: 'jacoco'
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport', 'connectedPlayDebugAndroidTest']) {
 
     reports {
-        xml.enabled = true
+        xml.enabled = false
         html.enabled = true
     }
 
@@ -281,6 +281,10 @@ tasks.withType(Test) {
     testLogging {
         events "standardOut", "standardError", "started", "passed", "skipped", "failed"
         exceptionFormat "full"
+    }
+    reports {
+        junitXml.enabled = false
+        html.enabled = true
     }
 }
 repositories {
