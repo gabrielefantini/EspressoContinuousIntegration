@@ -31,25 +31,25 @@ jobs:
         script: bash installApkAndRunTest.sh
 
 
-    - name: Send mail
-      uses: dawidd6/action-send-mail@v3
-      with:
+    #- name: Send mail
+    #  uses: dawidd6/action-send-mail@v3
+    #  with:
         # Required mail server address:
-        server_address: smtp.ethereal.email
+    #    server_address: smtp.ethereal.email
         # Required mail server port:
-        server_port: 587
+    #    server_port: 587
         # Optional (recommended): mail server username:
-        username: kyler.pfeffer83@ethereal.email
+    #    username: kyler.pfeffer83@ethereal.email
         # Optional (recommended) mail server password:
-        password: q26wRdRveXFmUJHP7G
+    #    password: q26wRdRveXFmUJHP7G
         # Required mail subject:
-        subject: Github Actions job result
+    #    subject: Github Actions job result
         # Required recipients' addresses:
-        to: obiwan@example.com,yoda@example.com
+    #    to: obiwan@example.com,yoda@example.com
         # Required sender full name (address can be skipped):
-        from: Luke Skywalker # <user@example.com>
+    #    from: Luke Skywalker # <user@example.com>
         # Optional HTML body read from file:
-        html_body: file:///Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/outputs/androidTest-results/connected/flavors/playDebugAndroidTest/TEST-test(AVD) - 7.1.1-omniNotes-playDebugAndroidTest.xml
+    #    html_body: file:///Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/outputs/androidTest-results/connected/flavors/playDebugAndroidTest/TEST-test(AVD) - 7.1.1-omniNotes-playDebugAndroidTest.xml
 
     - uses: actions/upload-artifact@v2
       with:
