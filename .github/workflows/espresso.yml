@@ -49,9 +49,9 @@ jobs:
         # Required sender full name (address can be skipped):
         from: Luke Skywalker # <user@example.com>
         # Optional HTML body read from file:
-        html_body: file:///Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/reports/tests/testPlayReleaseUnitTest/index.html
+        html_body: file:///Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/outputs/androidTest-results/connected/flavors/playDebugAndroidTest/TEST-test(AVD) - 7.1.1-omniNotes-playDebugAndroidTest.xml
 
     - uses: actions/upload-artifact@v2
       with:
         name: test-report
-        path: /Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/reports/tests/testPlayReleaseUnitTest
+        path: /Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/outputs/androidTest-results/*
