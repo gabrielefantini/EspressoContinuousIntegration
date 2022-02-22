@@ -48,6 +48,7 @@ android {
         versionCode Integer.parseInt(project.VERSION_CODE)
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunnerArguments clearPackageData: 'true'
         multiDexEnabled true
     }
 
@@ -58,6 +59,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
         animationsDisabled = true
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     packagingOptions {
@@ -116,6 +118,8 @@ android {
 }
 
 dependencies {
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestUtil 'androidx.test:orchestrator:1.1.0'
     implementation 'androidx.test.espresso:espresso-contrib:3.4.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.powermock:powermock:1.6.5'
