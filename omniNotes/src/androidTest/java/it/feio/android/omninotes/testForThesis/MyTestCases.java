@@ -28,10 +28,11 @@ import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
+import android.content.res.Resources;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
@@ -45,7 +46,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -204,6 +207,25 @@ public class MyTestCases {
                 .check(matches(isDisplayed()));
 
     }
+
+    @Test
+    public void sortNotes() throws IOException, InterruptedException {
+        //  SETUP
+        ActivityScenario activityScenario =
+                ActivityScenario.launch(MainActivity.class);
+
+     /*   insertNote("Note 1", "");
+        insertNote("Note 2", "");
+        insertNote("Note 3", "");*/
+
+        onView(withId(R.id.menu_sort))
+                .perform(click());
+        onView(withText("Creation date"))
+                .perform(click());
+        onView(new RecyclerViewMatcher(R.id.list)
+                .atPositionOnView(0, R.id.note_title))
+                .check(matches(withText("Note 1")));
+    }
     /*=====================================
      * Utils functions
      * =====================================*/
@@ -276,4 +298,63 @@ public class MyTestCases {
         };
     }
 
+}
+
+class RecyclerViewMatcher {
+    private final int recyclerViewId;
+
+    public RecyclerViewMatcher(int recyclerViewId) {
+        this.recyclerViewId = recyclerViewId;
+    }
+
+    public Matcher<View> atPosition(final int position) {
+        return atPositionOnView(position, -1);
+    }
+
+    public Matcher<View> atPositionOnView(final int position, final int targetViewId) {
+
+        return new TypeSafeMatcher<View>() {
+            Resources resources = null;
+            View childView;
+
+            public void describeTo(Description description) {
+                String idDescription = Integer.toString(recyclerViewId);
+                if (this.resources != null) {
+                    try {
+                        idDescription = this.resources.getResourceName(recyclerViewId);
+                    } catch (Resources.NotFoundException var4) {
+                        idDescription = String.format("%s (resource name not found)",
+                                new Object[] { Integer.valueOf
+                                        (recyclerViewId) });
+                    }
+                }
+
+                description.appendText("with id: " + idDescription);
+            }
+
+            public boolean matchesSafely(View view) {
+
+                this.resources = view.getResources();
+
+                if (childView == null) {
+                    RecyclerView recyclerView =
+                            (RecyclerView) view.getRootView().findViewById(recyclerViewId);
+                    if (recyclerView != null && recyclerView.getId() == recyclerViewId) {
+                        childView = recyclerView.findViewHolderForAdapterPosition(position).itemView;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                if (targetViewId == -1) {
+                    return view == childView;
+                } else {
+                    View targetView = childView.findViewById(targetViewId);
+                    return view == targetView;
+                }
+
+            }
+        };
+    }
 }
