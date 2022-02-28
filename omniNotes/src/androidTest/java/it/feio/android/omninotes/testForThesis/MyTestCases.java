@@ -4,6 +4,7 @@ package it.feio.android.omninotes.testForThesis;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.pressKey;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -214,9 +215,9 @@ public class MyTestCases {
         ActivityScenario activityScenario =
                 ActivityScenario.launch(MainActivity.class);
 
-     /*   insertNote("Note 1", "");
+       insertNote("Note 1", "");
         insertNote("Note 2", "");
-        insertNote("Note 3", "");*/
+        insertNote("Note 3", "");
 
         onView(withId(R.id.menu_sort))
                 .perform(click());
@@ -225,6 +226,97 @@ public class MyTestCases {
         onView(new RecyclerViewMatcher(R.id.list)
                 .atPositionOnView(0, R.id.note_title))
                 .check(matches(withText("Note 1")));
+    }
+
+    @Test
+    public void insertNewCategory() throws IOException, InterruptedException {
+        //  SETUP
+        ActivityScenario activityScenario =
+                ActivityScenario.launch(MainActivity.class);
+
+        onView(withId(R.id.fab_expand_menu_button)).perform(click());
+        onView(withId(R.id.fab_note)).perform(click());
+        onView(withId(R.id.detail_root)).check(matches(isDisplayed()));
+        onView(withId(R.id.detail_tile_card)).check(matches(isDisplayed()));
+        onView(withId(R.id.detail_content_card)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.menu_category))
+                .perform(click());
+        onView(withText("ADD CATEGORY"))
+                .perform(click());
+        onView(withId(R.id.category_title))
+                .perform(typeText("New Category"));
+        onView(withId(R.id.color_chooser))
+                .perform(click());
+        onView(withText("DONE"))
+                .perform(click());
+        onView(withText("OK"))
+                .perform(click());
+        onView(withId(R.id.detail_title)).perform(typeText("New Note"));
+        pressBack();
+        pressBack();
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isOpen(Gravity.LEFT)))
+                .perform(DrawerActions.close());
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+        //Click on Archive on the drawer menu
+        onView(withText("New Category")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void deleteCategory() throws IOException, InterruptedException {
+        //  SETUP
+        ActivityScenario activityScenario =
+                ActivityScenario.launch(MainActivity.class);
+
+        onView(withId(R.id.fab_expand_menu_button)).perform(click());
+        onView(withId(R.id.fab_note)).perform(click());
+        onView(withId(R.id.detail_root)).check(matches(isDisplayed()));
+        onView(withId(R.id.detail_tile_card)).check(matches(isDisplayed()));
+        onView(withId(R.id.detail_content_card)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.menu_category))
+                .perform(click());
+        onView(withText("ADD CATEGORY"))
+                .perform(click());
+        onView(withId(R.id.category_title))
+                .perform(typeText("New Category"));
+        onView(withId(R.id.color_chooser))
+                .perform(click());
+        onView(withText("DONE"))
+                .perform(click());
+        onView(withText("OK"))
+                .perform(click());
+        onView(withId(R.id.detail_title)).perform(typeText("New Note"));
+        pressBack();
+        pressBack();
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isOpen(Gravity.LEFT)))
+                .perform(DrawerActions.close());
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+        //Click on Archive on the drawer menu
+        onView(withText("New Category")).check(matches(isDisplayed()));
+
+        onView(withText("New Category"))
+                .perform(longClick());
+        onView(withText("DELETE"))
+                .perform(click());
+        onView(withText("CONFIRM"))
+                .perform(click());
+        onView(withText("New Category")).check(doesNotExist());
+
     }
     /*=====================================
      * Utils functions
