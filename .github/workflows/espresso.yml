@@ -9,6 +9,8 @@ jobs:
       matrix:
         api-level: [25] #Google api level for example [25,23,28]
         target: [default]
+        profile: ["Nexus 6", "Nexus 6P", "Nexus 9", "Nexus S", "Nexus 5X", "pixel_2", "pixel_c", "pixel_xl", "pixel_3a", "pixel_4_xl"]
+        #profile: ["Nexus 6"]
     steps:
     - uses: actions/checkout@v2 #checkout the code
 
@@ -27,7 +29,7 @@ jobs:
         api-level: ${{ matrix.api-level }}
         target: ${{ matrix.target }}
         arch: x86_64
-        profile: Nexus 6
+        profile: ${{ matrix.profile }}
         script: bash installApkAndRunTest.sh
 
 
@@ -53,5 +55,5 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: test-report
+        name: test-report of ${{ matrix.profile }}
         path: /Users/runner/work/EspressoContinuousIntegration/EspressoContinuousIntegration/omniNotes/build/outputs/androidTest-results/*
