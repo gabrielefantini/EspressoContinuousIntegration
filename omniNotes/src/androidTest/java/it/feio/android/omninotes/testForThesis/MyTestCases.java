@@ -2,6 +2,7 @@ package it.feio.android.omninotes.testForThesis;
 
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
@@ -23,6 +24,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withResourceName;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
@@ -215,7 +217,7 @@ public class MyTestCases {
         ActivityScenario activityScenario =
                 ActivityScenario.launch(MainActivity.class);
 
-       insertNote("Note 1", "");
+        insertNote("Note 1", "");
         insertNote("Note 2", "");
         insertNote("Note 3", "");
 
@@ -317,6 +319,98 @@ public class MyTestCases {
                 .perform(click());
         onView(withText("New Category")).check(doesNotExist());
 
+    }
+
+    @Test
+    public void deleteNoteAndEmptyTrash() throws IOException, InterruptedException {
+        //  SETUP
+        ActivityScenario activityScenario =
+                ActivityScenario.launch(MainActivity.class);
+        insertNote("New Note", "New Note Content");
+        onView(withText("New Note"))
+                .perform(click());
+        openActionBarOverflowOrOptionsMenu(
+                getInstrumentation().getTargetContext()
+        );
+        onView(withText("Trash"))
+                .perform(click());
+        //Open drawer
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+        //Wait for swipe animation to end
+        onView(isRoot()).perform(waitForText("Trash", 5000));
+        //Click on Trash on the drawer menu
+        onView(withText("Trash")).check(matches(isDisplayed()));
+        onView(withText("Trash")).perform(click());
+        //Check if actually the note has been trashed
+        onView(withText("New Note")).check(matches(isDisplayed()));
+        onView(withText("New Note Content")).check(matches(isDisplayed()));
+
+        openActionBarOverflowOrOptionsMenu(
+                getInstrumentation().getTargetContext()
+        );
+
+        onView(withText("Empty trash")).perform(click());
+        onView(withText("OK")).perform(click());
+        onView(withText("New Note")).check(doesNotExist());
+        onView(withText("New Note Content")).check(doesNotExist());
+    }
+
+    @Test
+    public void infoMenu(){
+        //  SETUP
+        ActivityScenario activityScenario = ActivityScenario.launch(MainActivity.class);
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open());
+        //Click on Archive on the drawer menu
+        onView(withId(R.id.settings_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.settings_view)).perform(click());
+
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(2));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_data)))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(3));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_interface))).check(
+                matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(4));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_navigation))).check(
+                matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(5));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_behaviors))).check(
+                matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(6));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_notifications)))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(7));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_privacy)))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(9));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_beta)))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(11));
+        onView(allOf(withId(android.R.id.title), withText(R.string.online_manual)))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(12));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_tour_show_again)))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(14));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_changelog)))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(15));
+        onView(allOf(withId(android.R.id.title), withText(R.string.settings_statistics)))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(16));
+        onView(allOf(withId(android.R.id.title), withText(R.string.info)))
+                .check(matches(isDisplayed()))
+                .perform(click());
+        onView(withId(R.id.webview)).check(matches(isDisplayed()));
+
+        pressBack();
+        pressBack();
+        pressBack();
     }
     /*=====================================
      * Utils functions
