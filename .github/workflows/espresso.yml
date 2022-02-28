@@ -10,7 +10,7 @@ jobs:
       matrix:
         api-level: [25] #Google api level for example [25,23,28]
         target: [default]
-        profile: ["Nexus 6", "Nexus 6P", "Nexus 9", "Nexus S", "Nexus 5X", "pixel_2", "pixel_c", "pixel_xl", "pixel_3a", "pixel_4_xl"]
+        profile: ["Nexus 6", "Nexus 6", "Nexus 6", "Nexus 6", "Nexus 6", "Nexus 6", "Nexus 6", "Nexus 6", "Nexus 6", "Nexus 6"]
         #profile: ["Nexus 6"]
       fail-fast: false
     steps:
