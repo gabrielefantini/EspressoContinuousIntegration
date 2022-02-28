@@ -224,7 +224,7 @@ public class MyTestCases {
         onView(withId(R.id.menu_sort))
                 .perform(click());
         onView(withText("Creation date"))
-                .perform(click());
+                .perform(longClick());
         onView(new RecyclerViewMatcher(R.id.list)
                 .atPositionOnView(0, R.id.note_title))
                 .check(matches(withText("Note 3")));
