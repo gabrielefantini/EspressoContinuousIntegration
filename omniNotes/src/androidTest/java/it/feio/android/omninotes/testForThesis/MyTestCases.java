@@ -227,7 +227,7 @@ public class MyTestCases {
                 .perform(click());
         onView(new RecyclerViewMatcher(R.id.list)
                 .atPositionOnView(0, R.id.note_title))
-                .check(matches(withText("Note 1")));
+                .check(matches(withText("Note 3")));
     }
 
     @Test
